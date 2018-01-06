@@ -1,4 +1,4 @@
-package: github.com/olebedev/go-starter-kit
+package: github.com/ant1441/kube-webview
 import:
 - package: github.com/codegangsta/cli
 - package: github.com/dop251/goja
@@ -18,3 +18,7 @@ import:
   - fetch
 - package: github.com/olebedev/on
 - package: github.com/jteeuwen/go-bindata
+- package: k8s.io/client-go
+  version: ~6.0.0
+  subpackages:
+  - kubernetes

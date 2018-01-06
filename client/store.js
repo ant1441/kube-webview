@@ -1,6 +1,7 @@
-import { applyMiddleware, createStore as reduxCreateStore } from 'redux';
+import { applyMiddleware, createStore as reduxCreateStore, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 import reducers from './reducers';
+import DevTools from '#app/components/dev-tools';
 
 const middlewares = [];
 
@@ -11,11 +12,18 @@ if (process.env.NODE_ENV !== 'production') {
   } catch (e) {}
 }
 
+const enhancer = compose(
+  // Middleware you want to use in development:
+  applyMiddleware.apply(null, middlewares),
+  // Required! Enable Redux DevTools with the monitors you chose
+  DevTools.instrument()
+);
+
 export function createStore(state) {
   return reduxCreateStore(
     reducers,
     state,
-    applyMiddleware.apply(null, middlewares)
+    enhancer
   );
 }
 

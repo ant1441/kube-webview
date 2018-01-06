@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"io"
 	"net/http"
@@ -60,6 +61,8 @@ func NewApp(opts ...AppOptions) *App {
 	// Regular middlewares
 	engine.Use(middleware.Recover())
 
+	engine.Use(middle)
+
 	engine.GET("/favicon.ico", func(c echo.Context) error {
 		return c.Redirect(http.StatusMovedPermanently, "/static/images/favicon.ico")
 	})
@@ -68,11 +71,14 @@ func NewApp(opts ...AppOptions) *App {
 		Format: `${method} | ${status} | ${uri} -> ${latency_human}` + "\n",
 	}))
 
+	api, err := NewAPI(conf)
+	Must(err)
+
 	// Initialize the application
 	app := &App{
 		Conf:   conf,
 		Engine: engine,
-		API:    &API{},
+		API:    api,
 		React: NewReact(
 			conf.UString("duktape.path"),
 			conf.UBool("debug"),
@@ -160,3 +166,11 @@ func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 type AppOptions struct{}
 
 func (ao *AppOptions) init() { /* write your own*/ }
+
+func middle(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		fmt.Printf("\n#######################################################\n%s\n#######################################################\n", c.Request().URL)
+		err := next(c)
+		return err
+	}
+}

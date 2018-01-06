@@ -22,4 +22,7 @@ api:
   prefix: /api
 duktape:
   path: static/build/bundle.js
+kubernetes:
+  kubeconfig: ~/.kube/config
+  master: https://165.227.226.174:6443
 `

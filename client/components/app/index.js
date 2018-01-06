@@ -5,7 +5,7 @@ export default class App extends Component {
 
   render() {
     return <div>
-      <Helmet title='Go + React + Redux = rocks!' />
+      <Helmet title='Kubernetes Webview' />
       {this.props.children}
     </div>;
   }

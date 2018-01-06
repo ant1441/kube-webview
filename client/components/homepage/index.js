@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-import { example, p, link } from './styles';
+import { title, p, link } from './styles';
 
 export default class Homepage extends Component {
   /*eslint-disable */
@@ -14,17 +14,20 @@ export default class Homepage extends Component {
   render() {
     return <div>
       <Helmet
-        title='Home page'
+        title='Kubernetes Webview'
         meta={[
           {
             property: 'og:title',
-            content: 'Golang Isomorphic React/Hot Reloadable/Redux/Css-Modules Starter Kit'
+            content: 'Webview for Kubernetes'
           }
         ]} />
-      <h1 className={example}>
-        Hot Reloadable <br />
-        Golang + React + Redux + Css-Modules
-        <br />Isomorphic Starter Kit</h1>
+      <h1 className={title}>
+      Kubernetes Webview
+      </h1>
+      <ul>
+        <li><Link className={link} to='/nodes'>Nodes</Link></li>
+      </ul>
+
       <br />
       <p className={p}>
         Please take a look at <Link className={link} to='/docs'>usage</Link> page.

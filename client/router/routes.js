@@ -4,6 +4,7 @@ import App from '#app/components/app';
 import Homepage from '#app/components/homepage';
 import Usage from '#app/components/usage';
 import NotFound from '#app/components/not-found';
+import Nodes from '#app/components/nodes';
 
 /**
  * Returns configured routes for different
@@ -18,15 +19,18 @@ export default ({store, first}) => {
   function w(loader) {
     return (nextState, replaceState, callback) => {
       if (first.time) {
+        console.log("FIRST TIME");
         first.time = false;
         return callback();
       }
+      console.log("NOT FIRST TIME");
       return loader ? loader({store, nextState, replaceState, callback}) : callback();
     };
   }
 
   return <Route path="/" component={App}>
     <IndexRoute component={Homepage} onEnter={w(Homepage.onEnter)}/>
+    <Route path="/nodes" component={Nodes} onEnter={w(Nodes.onEnter)}/>
     <Route path="/usage" component={Usage} onEnter={w(Usage.onEnter)}/>
     {/* Server redirect in action */}
     <Redirect from="/docs" to="/usage" />

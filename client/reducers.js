@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
-import { SET_CONFIG } from './actions';
+import { routerReducer } from 'react-router-redux'
+import { SET_CONFIG, SET_NODES } from './actions';
 
 function config(state = {}, action) {
   switch (action.type) {
@@ -10,4 +11,17 @@ function config(state = {}, action) {
   }
 }
 
-export default combineReducers({config});
+function nodes(state = {}, action) {
+  switch (action.type) {
+  case SET_NODES:
+    return action.nodes;
+  default:
+    return state;
+  }
+}
+
+export default combineReducers({
+    config,
+    nodes,
+    routing: routerReducer
+});

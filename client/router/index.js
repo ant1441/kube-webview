@@ -4,8 +4,10 @@ import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import toString from './toString';
 import { Promise } from 'when';
+import DevTools from '#app/components/dev-tools';
 import createRoutes from './routes';
 import { createStore, setAsCurrentStore } from '../store';
+import { syncHistoryWithStore } from 'react-router-redux'
 
 
 export function run() {
@@ -18,9 +20,16 @@ export function run() {
   const store = createStore(window['--app-initial']);
   setAsCurrentStore(store);
 
+  // Create an enhanced history that syncs navigation events with the store
+  const history = syncHistoryWithStore(browserHistory, store)
+
+      //{ process.env.NODE_ENV !== 'production' && <DevTools /> }
   render(
     <Provider store={store} >
-      <Router history={browserHistory}>{createRoutes({store, first: { time: true }})}</Router>
+      <div>
+        <DevTools />
+        <Router history={history}>{createRoutes({store, first: { time: true }})}</Router>
+      </div>
     </Provider>,
     document.getElementById('app')
   );

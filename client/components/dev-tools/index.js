@@ -11,7 +11,7 @@ import DockMonitor from 'redux-devtools-dock-monitor';
 const DevTools = createDevTools(
   // Monitors are individually adjustable with props
   // Consult their repositories to learn about those props
-  <DockMonitor defaultIsVisible={false}
+  <DockMonitor defaultIsVisible={true}
                changePositionKey='ctrl-q'
                toggleVisibilityKey='ctrl-h'>
     <LogMonitor theme='tomorrow' />

@@ -15,8 +15,8 @@ func main() {
 // main cli.App
 func Run(args []string) {
 	app := cli.NewApp()
-	app.Name = "app"
-	app.Usage = "React server application"
+	app.Name = "kube-webview"
+	app.Usage = "kubernetes web view"
 
 	app.Commands = []cli.Command{
 		{
@@ -31,8 +31,6 @@ func Run(args []string) {
 // RunServer creates, configures and runs
 // main server.App
 func RunServer(c *cli.Context) {
-	app := NewApp(AppOptions{
-	// see server/app.go:150
-	})
+	app := NewApp(AppOptions{})
 	app.Run()
 }
