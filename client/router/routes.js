@@ -1,10 +1,14 @@
 import React from 'react';
 import { Route, IndexRoute, Redirect } from 'react-router';
+import DevTools from '#app/components/dev-tools';
 import App from '#app/components/app';
 import Homepage from '#app/components/homepage';
 import Usage from '#app/components/usage';
 import NotFound from '#app/components/not-found';
 import Nodes from '#app/components/nodes';
+import Namespaces from '#app/components/namespaces';
+import Pods from '#app/components/pods';
+import Services from '#app/components/services';
 
 /**
  * Returns configured routes for different
@@ -19,21 +23,27 @@ export default ({store, first}) => {
   function w(loader) {
     return (nextState, replaceState, callback) => {
       if (first.time) {
-        console.log("FIRST TIME");
         first.time = false;
         return callback();
       }
-      console.log("NOT FIRST TIME");
       return loader ? loader({store, nextState, replaceState, callback}) : callback();
     };
   }
 
-  return <Route path="/" component={App}>
-    <IndexRoute component={Homepage} onEnter={w(Homepage.onEnter)}/>
-    <Route path="/nodes" component={Nodes} onEnter={w(Nodes.onEnter)}/>
-    <Route path="/usage" component={Usage} onEnter={w(Usage.onEnter)}/>
-    {/* Server redirect in action */}
-    <Redirect from="/docs" to="/usage" />
-    <Route path="*" component={NotFound} onEnter={w(NotFound.onEnter)}/>
-  </Route>;
+  return (
+    <div>
+      <DevTools />
+      <Route path="/" component={App}>
+        <IndexRoute component={Homepage} onEnter={w(Homepage.onEnter)}/>
+        <Route path="/nodes" component={Nodes} onEnter={w(Nodes.onEnter)}/>
+        <Route path="/namespaces" component={Namespaces} onEnter={w(Namespaces.onEnter)}/>
+        <Route path="/pods" component={Pods} onEnter={w(Pods.onEnter)}/>
+        <Route path="/services" component={Services} onEnter={w(Services.onEnter)}/>
+        <Route path="/usage" component={Usage} onEnter={w(Usage.onEnter)}/>
+        {/* Server redirect in action */}
+        <Redirect from="/docs" to="/usage" />
+        <Route path="*" component={NotFound} onEnter={w(NotFound.onEnter)}/>
+      </Route>
+    </div>
+  );
 };

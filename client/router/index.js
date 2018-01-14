@@ -4,7 +4,6 @@ import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
 import toString from './toString';
 import { Promise } from 'when';
-import DevTools from '#app/components/dev-tools';
 import createRoutes from './routes';
 import { createStore, setAsCurrentStore } from '../store';
 import { syncHistoryWithStore } from 'react-router-redux'
@@ -17,6 +16,7 @@ export function run() {
   window.self = window;
   require('whatwg-fetch');
 
+  // TODO: Figure out why this doesn't set nodes
   const store = createStore(window['--app-initial']);
   setAsCurrentStore(store);
 
@@ -26,10 +26,7 @@ export function run() {
       //{ process.env.NODE_ENV !== 'production' && <DevTools /> }
   render(
     <Provider store={store} >
-      <div>
-        <DevTools />
         <Router history={history}>{createRoutes({store, first: { time: true }})}</Router>
-      </div>
     </Provider>,
     document.getElementById('app')
   );

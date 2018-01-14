@@ -3,7 +3,7 @@
  */
 
 export const SET_CONFIG = 'SET_CONFIG';
-export const SET_NODES = 'SET_NODES';
+export const SET_WIDE = 'SET_WIDE';
 
 /**
  * action creators
@@ -13,6 +13,9 @@ export function setConfig(config) {
   return { type: SET_CONFIG, config };
 }
 
-export function setNodes(nodes) {
-  return { type: SET_NODES, nodes };
+export function setWide(wide) {
+  return {
+    type: SET_WIDE,
+    wide: wide,
+  }
 }

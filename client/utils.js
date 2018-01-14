@@ -33,3 +33,7 @@ export function timeSince(date) {
   }
   return Math.floor(seconds) + " seconds";
 }
+
+export function emptyObject(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object
+}

@@ -1,10 +1,11 @@
 package main
 
 import (
-	"fmt"
 	"html/template"
 	"io"
 	"net/http"
+
+	. "github.com/ant1441/kube-webview/server/utils"
 
 	"github.com/elazarl/go-bindata-assetfs"
 	"github.com/itsjamie/go-bindata-templates"
@@ -169,7 +170,6 @@ func (ao *AppOptions) init() { /* write your own*/ }
 
 func middle(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		fmt.Printf("\n#######################################################\n%s\n#######################################################\n", c.Request().URL)
 		err := next(c)
 		return err
 	}

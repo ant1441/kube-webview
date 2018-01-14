@@ -1,4 +1,4 @@
-package main
+package utils
 
 import (
 	"os/user"
@@ -27,7 +27,7 @@ func MapGetDefault(m map[string]interface{}, key string, d interface{}) interfac
 	return d
 }
 
-func expandHome(path string) (string, error) {
+func ExpandHome(path string) (string, error) {
 	if !strings.HasPrefix(path, "~") {
 		return path, nil
 	}

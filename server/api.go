@@ -3,6 +3,8 @@ package main
 import (
 	"time"
 
+	. "github.com/ant1441/kube-webview/server/utils"
+
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/clientcmd"
@@ -27,7 +29,7 @@ func NewAPI(conf *config.Config) (*API, error) {
 	MustB(ok, "Unable to get kubernetes master url")
 	kubeconfig, ok := MapGetDefault(kConf, "kubeconfig", "~/.kube/config").(string)
 	MustB(ok, "Unable to get kubeconfig path")
-	kubeconfig, err := expandHome(kubeconfig)
+	kubeconfig, err := ExpandHome(kubeconfig)
 	Must(err)
 	kubeTimeoutS, ok := MapGetDefault(kConf, "timeout", "5s").(string)
 	MustB(ok, "Unable to get kubernetes timeout")
@@ -55,6 +57,9 @@ func NewAPI(conf *config.Config) (*API, error) {
 func (api *API) Bind(group *echo.Group) {
 	group.GET("/v1/conf", api.ConfHandler)
 	group.GET("/v1/nodes", api.NodesHandler)
+	group.GET("/v1/namespaces", api.NamespacesHandler)
+	group.GET("/v1/pods", api.PodsHandler)
+	group.GET("/v1/services", api.ServicesHandler)
 }
 
 // ConfHandler handle the app config, for example
@@ -77,4 +82,54 @@ func (api *API) NodesHandler(c echo.Context) error {
 	}
 
 	return c.JSON(200, nodes)
+}
+
+// NamespacesHandler fetches the list of k8s nodes
+func (api *API) NamespacesHandler(c echo.Context) error {
+	namespaces, err := api.k8sClientset.CoreV1().Namespaces().List(metav1.ListOptions{})
+	if err != nil {
+		return c.JSON(500, struct {
+			Error   error
+			Message string
+		}{
+			Error:   err,
+			Message: "Couldn't fetch Namespaces",
+		})
+	}
+
+	return c.JSON(200, namespaces)
+}
+
+// PodsHandler fetches the list of k8s nodes
+func (api *API) PodsHandler(c echo.Context) error {
+	namespace := c.QueryParam("namespace")
+	pods, err := api.k8sClientset.CoreV1().Pods(namespace).List(metav1.ListOptions{})
+	if err != nil {
+		return c.JSON(500, struct {
+			Error   error
+			Message string
+		}{
+			Error:   err,
+			Message: "Couldn't fetch Pods",
+		})
+	}
+
+	return c.JSON(200, pods)
+}
+
+// ServicesHandler fetches the list of k8s nodes
+func (api *API) ServicesHandler(c echo.Context) error {
+	namespace := c.QueryParam("namespace")
+	pods, err := api.k8sClientset.CoreV1().Services(namespace).List(metav1.ListOptions{})
+	if err != nil {
+		return c.JSON(500, struct {
+			Error   error
+			Message string
+		}{
+			Error:   err,
+			Message: "Couldn't fetch Services",
+		})
+	}
+
+	return c.JSON(200, pods)
 }

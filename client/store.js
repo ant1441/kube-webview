@@ -1,9 +1,13 @@
 import { applyMiddleware, createStore as reduxCreateStore, compose } from 'redux';
+import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger';
+
 import reducers from './reducers';
 import DevTools from '#app/components/dev-tools';
 
-const middlewares = [];
+const middlewares = [
+  thunkMiddleware,
+];
 
 // Add state logger
 if (process.env.NODE_ENV !== 'production') {
@@ -20,6 +24,7 @@ const enhancer = compose(
 );
 
 export function createStore(state) {
+  console.log("Store initial state: %o", state);
   return reduxCreateStore(
     reducers,
     state,

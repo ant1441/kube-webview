@@ -28,7 +28,8 @@ export default function (options, cbk) {
   setAsCurrentStore(store);
 
   try {
-    match({ routes: createRoutes({store, first: { time: false }}), location: options.url }, (error, redirectLocation, renderProps) => {
+    match({ routes: createRoutes({store, first: { time: false }}), location: options.url },
+          (error, redirectLocation, renderProps) => {
       try {
         if (error) {
           result.error = error;
@@ -46,6 +47,7 @@ export default function (options, cbk) {
           result.title = title.toString();
           result.meta = meta.toString();
           result.initial = JSON.stringify(store.getState());
+          console.log("Initial state: %s", result.initial);
         }
       } catch (e) {
         result.error = e;
