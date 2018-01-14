@@ -16,3 +16,9 @@ export function SERVICES(namespace) {
     }
     return `api/v1/services?namespace=${namespace}`;
 }
+export function INGRESS(namespace) {
+    if (!namespace) {
+        namespace = "default";
+    }
+    return `api/v1/ingress?namespace=${namespace}`;
+}

@@ -60,6 +60,7 @@ func (api *API) Bind(group *echo.Group) {
 	group.GET("/v1/namespaces", api.NamespacesHandler)
 	group.GET("/v1/pods", api.PodsHandler)
 	group.GET("/v1/services", api.ServicesHandler)
+	group.GET("/v1/ingress", api.IngressHandler)
 }
 
 // ConfHandler handle the app config, for example
@@ -128,6 +129,23 @@ func (api *API) ServicesHandler(c echo.Context) error {
 		}{
 			Error:   err,
 			Message: "Couldn't fetch Services",
+		})
+	}
+
+	return c.JSON(200, pods)
+}
+
+// IngressHandler fetches the list of k8s nodes
+func (api *API) IngressHandler(c echo.Context) error {
+	namespace := c.QueryParam("namespace")
+	pods, err := api.k8sClientset.ExtensionsV1beta1().Ingresses(namespace).List(metav1.ListOptions{})
+	if err != nil {
+		return c.JSON(500, struct {
+			Error   error
+			Message string
+		}{
+			Error:   err,
+			Message: "Couldn't fetch Ingress",
 		})
 	}
 
