@@ -22,3 +22,9 @@ export function INGRESS(namespace) {
     }
     return `api/v1/ingress?namespace=${namespace}`;
 }
+export function CONFIGMAPS(namespace) {
+    if (!namespace) {
+        namespace = "default";
+    }
+    return `api/v1/configmaps?namespace=${namespace}`;
+}

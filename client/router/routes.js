@@ -10,6 +10,7 @@ import Namespaces from '#app/components/namespaces';
 import Pods from '#app/components/pods';
 import Services from '#app/components/services';
 import Ingress from '#app/components/ingress';
+import ConfigMaps from '#app/components/configmaps';
 
 /**
  * Returns configured routes for different
@@ -41,6 +42,7 @@ export default ({store, first}) => {
         <Route path="/pods" component={Pods} onEnter={w(Pods.onEnter)}/>
         <Route path="/services" component={Services} onEnter={w(Services.onEnter)}/>
         <Route path="/ingress" component={Ingress} onEnter={w(Ingress.onEnter)}/>
+        <Route path="/configmaps" component={ConfigMaps} onEnter={w(ConfigMaps.onEnter)}/>
         <Route path="/usage" component={Usage} onEnter={w(Usage.onEnter)}/>
         {/* Server redirect in action */}
         <Redirect from="/docs" to="/usage" />

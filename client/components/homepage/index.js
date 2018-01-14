@@ -30,6 +30,7 @@ export default class Homepage extends Component {
         <li><Link className={link} to='/pods'>Pods</Link></li>
         <li><Link className={link} to='/services'>Services</Link></li>
         <li><Link className={link} to='/ingress'>Ingress</Link></li>
+        <li><Link className={link} to='/configmaps'>Config Maps</Link></li>
       </ul>
 
       <br />

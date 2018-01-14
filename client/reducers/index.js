@@ -6,6 +6,7 @@ import namespaces from './namespaces';
 import pods from './pods';
 import services from './services';
 import ingress from './ingress';
+import configmaps from './configmaps';
 
 function config(state = { wide: false }, action) {
   switch (action.type) {
@@ -25,5 +26,6 @@ export default combineReducers({
     pods,
     services,
     ingress,
+    configmaps,
     routing: routerReducer
 });
