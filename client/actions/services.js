@@ -3,6 +3,7 @@ import { expectJSON, emptyObject } from '#app/utils';
 
 export const REQUEST_SERVICES = 'REQUEST_SERVICES';
 export const RECEIVE_SERVICES = 'RECEIVE_SERVICES';
+export const RECEIVE_SERVICES_ERROR = 'RECEIVE_SERVICES_ERROR';
 export const INVALIDATE_SERVICES = 'INVALIDATE_SERVICES';
 
 export function requestServices(namespace) {
@@ -23,7 +24,7 @@ export function receiveServices(namespace, json) {
 
 export function receiveServicesError(namespace, err) {
   return {
-    type: RECEIVE_SERVICES,
+    type: RECEIVE_SERVICES_ERROR,
     namespace,
     error: err,
     receivedAt: Date.now()

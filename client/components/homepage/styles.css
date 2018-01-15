@@ -7,14 +7,12 @@
 }
 
 .link {
-  color: $yellow;
   position: relative;
   &:before {
     content: '';
     position: absolute;
     height: px(2);
     bottom: px(0);
-    background-color: $yellow;
     right: px(-1);
     left: @right;
   }

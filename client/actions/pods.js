@@ -3,6 +3,7 @@ import { expectJSON, emptyObject } from '#app/utils';
 
 export const REQUEST_PODS = 'REQUEST_PODS';
 export const RECEIVE_PODS = 'RECEIVE_PODS';
+export const RECEIVE_PODS_ERROR = 'RECEIVE_PODS_ERROR';
 export const INVALIDATE_PODS = 'INVALIDATE_PODS';
 
 export function requestPods(namespace) {
@@ -23,7 +24,7 @@ export function receivePods(namespace, json) {
 
 export function receivePodsError(namespace, err) {
   return {
-    type: RECEIVE_PODS,
+    type: RECEIVE_PODS_ERROR,
     namespace,
     error: err,
     receivedAt: Date.now()

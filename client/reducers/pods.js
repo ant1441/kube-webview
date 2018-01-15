@@ -1,6 +1,7 @@
 import {
   REQUEST_PODS,
   RECEIVE_PODS,
+  RECEIVE_PODS_ERROR,
   INVALIDATE_PODS,
 } from '#app/actions/pods';
 
@@ -29,6 +30,14 @@ function pods(
           items: action.pods,
           lastUpdated: action.receivedAt
       };
+    case RECEIVE_PODS_ERROR:
+      return {
+          ...state,
+          isFetching: false,
+          didInvalidate: false,
+          lastUpdated: action.receivedAt,
+          error: action.error
+      };
     default:
       return state;
   }
@@ -39,6 +48,7 @@ export default function podsByNamespace(state = {}, action) {
     case INVALIDATE_PODS:
     case REQUEST_PODS:
     case RECEIVE_PODS:
+    case RECEIVE_PODS_ERROR:
       return Object.assign({}, state, {
         [action.namespace]: pods(state[action.namespace], action)
       })

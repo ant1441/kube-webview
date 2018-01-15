@@ -2,6 +2,7 @@ import {
   SET_SELECTED_NAMESPACE,
   REQUEST_NAMESPACES,
   RECEIVE_NAMESPACES,
+  RECEIVE_NAMESPACES_ERROR,
   INVALIDATE_NAMESPACES,
 } from '#app/actions/namespaces';
 
@@ -32,6 +33,14 @@ export default function namespaces(
           didInvalidate: false,
           items: action.namespaces,
           lastUpdated: action.receivedAt
+      };
+    case RECEIVE_NAMESPACES_ERROR:
+      return {
+          ...state,
+          isFetching: false,
+          didInvalidate: false,
+          lastUpdated: action.receivedAt,
+          error: action.error
       };
     default:
       return state;

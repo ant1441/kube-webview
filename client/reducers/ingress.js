@@ -1,6 +1,7 @@
 import {
   REQUEST_INGRESS,
   RECEIVE_INGRESS,
+  RECEIVE_INGRESS_ERROR,
   INVALIDATE_INGRESS,
 } from '#app/actions/ingress';
 
@@ -29,6 +30,14 @@ function ingress(
           items: action.ingress,
           lastUpdated: action.receivedAt
       };
+    case RECEIVE_INGRESS_ERROR:
+      return {
+          ...state,
+          isFetching: false,
+          didInvalidate: false,
+          lastUpdated: action.receivedAt,
+          error: action.error
+      };
     default:
       return state;
   }
@@ -39,6 +48,7 @@ export default function ingressByNamespace(state = {}, action) {
     case INVALIDATE_INGRESS:
     case REQUEST_INGRESS:
     case RECEIVE_INGRESS:
+    case RECEIVE_INGRESS_ERROR:
       return Object.assign({}, state, {
         [action.namespace]: ingress(state[action.namespace], action)
       })

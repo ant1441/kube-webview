@@ -1,20 +1,21 @@
-import { CONFIGMAPS } from '../api';
+import { CONFIG_MAPS } from '../api';
 import { expectJSON, emptyObject } from '#app/utils';
 
-export const REQUEST_CONFIGMAPS = 'REQUEST_CONFIGMAPS';
-export const RECEIVE_CONFIGMAPS = 'RECEIVE_CONFIGMAPS';
-export const INVALIDATE_CONFIGMAPS = 'INVALIDATE_CONFIGMAPS';
+export const REQUEST_CONFIG_MAPS = 'REQUEST_CONFIG_MAPS';
+export const RECEIVE_CONFIG_MAPS = 'RECEIVE_CONFIG_MAPS';
+export const RECEIVE_CONFIG_MAPS_ERROR = 'RECEIVE_CONFIG_MAPS_ERROR';
+export const INVALIDATE_CONFIG_MAPS = 'INVALIDATE_CONFIG_MAPS';
 
 export function requestConfigMaps(namespace) {
   return {
-    type: REQUEST_CONFIGMAPS,
+    type: REQUEST_CONFIG_MAPS,
     namespace
   }
 }
 
 export function receiveConfigMaps(namespace, json) {
   return {
-    type: RECEIVE_CONFIGMAPS,
+    type: RECEIVE_CONFIG_MAPS,
     namespace,
     configmaps: json.items,
     receivedAt: Date.now()
@@ -23,7 +24,7 @@ export function receiveConfigMaps(namespace, json) {
 
 export function receiveConfigMapsError(namespace, err) {
   return {
-    type: RECEIVE_CONFIGMAPS,
+    type: RECEIVE_CONFIG_MAPS_ERROR,
     namespace,
     error: err,
     receivedAt: Date.now()
@@ -32,7 +33,7 @@ export function receiveConfigMapsError(namespace, err) {
 
 export function invalidateConfigMaps(namespace) {
   return {
-    type: INVALIDATE_CONFIGMAPS,
+    type: INVALIDATE_CONFIG_MAPS,
     namespace
   }
 }
@@ -40,7 +41,7 @@ export function invalidateConfigMaps(namespace) {
 export function fetchConfigMaps(namespace) {
   return dispatch => {
     dispatch(requestConfigMaps(namespace))
-    return fetch(CONFIGMAPS(namespace))
+    return fetch(CONFIG_MAPS(namespace))
       .then(expectJSON)
       .then(json => dispatch(receiveConfigMaps(namespace, json)))
       .catch((e) => dispatch(receiveConfigMapsError(namespace, e)))

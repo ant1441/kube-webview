@@ -3,6 +3,7 @@ import { expectJSON, emptyObject } from '#app/utils';
 
 export const REQUEST_INGRESS = 'REQUEST_INGRESS';
 export const RECEIVE_INGRESS = 'RECEIVE_INGRESS';
+export const RECEIVE_INGRESS_ERROR = 'RECEIVE_INGRESS_ERROR';
 export const INVALIDATE_INGRESS = 'INVALIDATE_INGRESS';
 
 export function requestIngress(namespace) {
@@ -23,7 +24,7 @@ export function receiveIngress(namespace, json) {
 
 export function receiveIngressError(namespace, err) {
   return {
-    type: RECEIVE_INGRESS,
+    type: RECEIVE_INGRESS_ERROR,
     namespace,
     error: err,
     receivedAt: Date.now()

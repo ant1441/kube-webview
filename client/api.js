@@ -22,15 +22,10 @@ export function INGRESS(namespace) {
     }
     return `api/v1/ingress?namespace=${namespace}`;
 }
-export function CONFIGMAPS(namespace) {
+export function CONFIG_MAPS(namespace) {
     if (!namespace) {
         namespace = "default";
     }
     return `api/v1/configmaps?namespace=${namespace}`;
 }
-export function CLUSTER_ROLE_BINDINGS(namespace) {
-    if (!namespace) {
-        namespace = "default";
-    }
-    return `api/v1/clusterrolebindings`;
-}
+export const CLUSTER_ROLE_BINDINGS = 'api/v1/clusterrolebindings';

@@ -4,6 +4,7 @@ import { expectJSON, emptyObject } from '#app/utils';
 export const SET_SELECTED_NAMESPACE = 'SET_SELECTED_NAMESPACE';
 export const REQUEST_NAMESPACES = 'REQUEST_NAMESPACES';
 export const RECEIVE_NAMESPACES = 'RECEIVE_NAMESPACES';
+export const RECEIVE_NAMESPACES_ERROR = 'RECEIVE_NAMESPACES_ERROR';
 export const INVALIDATE_NAMESPACES = 'INVALIDATE_NAMESPACES';
 
 export function setSelectedNamespace(namespace) {
@@ -29,7 +30,7 @@ export function receiveNamespaces(json) {
 
 export function receiveNamespacesError(err) {
   return {
-    type: RECEIVE_NAMESPACES,
+    type: RECEIVE_NAMESPACES_ERROR,
     error: err,
     receivedAt: Date.now()
   }

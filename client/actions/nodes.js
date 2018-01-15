@@ -3,6 +3,7 @@ import { expectJSON, emptyObject } from '#app/utils';
 
 export const REQUEST_NODES = 'REQUEST_NODES';
 export const RECEIVE_NODES = 'RECEIVE_NODES';
+export const RECEIVE_NODES_ERROR = 'RECEIVE_NODES_ERROR';
 export const INVALIDATE_NODES = 'INVALIDATE_NODES';
 
 export function requestNodes() {
@@ -21,7 +22,7 @@ export function receiveNodes(json) {
 
 export function receiveNodesError(err) {
   return {
-    type: RECEIVE_NODES,
+    type: RECEIVE_NODES_ERROR,
     error: err,
     receivedAt: Date.now()
   }

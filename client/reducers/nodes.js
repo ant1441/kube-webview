@@ -1,6 +1,7 @@
 import {
   REQUEST_NODES,
   RECEIVE_NODES,
+  RECEIVE_NODES_ERROR,
   INVALIDATE_NODES,
 } from '#app/actions/nodes';
 
@@ -28,6 +29,14 @@ export default function nodes(
           didInvalidate: false,
           items: action.nodes,
           lastUpdated: action.receivedAt
+      };
+    case RECEIVE_NODES_ERROR:
+      return {
+          ...state,
+          isFetching: false,
+          didInvalidate: false,
+          lastUpdated: action.receivedAt,
+          error: action.error
       };
     default:
       return state;
