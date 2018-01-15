@@ -61,7 +61,8 @@ func (api *API) Bind(group *echo.Group) {
 	group.GET("/v1/pods", api.PodsHandler)
 	group.GET("/v1/services", api.ServicesHandler)
 	group.GET("/v1/ingress", api.IngressHandler)
-	group.GET("/v1/configmaps", api.ConfigMapHandler)
+	group.GET("/v1/configmaps", api.ConfigMapsHandler)
+	group.GET("/v1/clusterrolebindings", api.ClusterRoleBindingsHandler)
 }
 
 // ConfHandler handle the app config, for example
@@ -153,8 +154,8 @@ func (api *API) IngressHandler(c echo.Context) error {
 	return c.JSON(200, pods)
 }
 
-// ConfigMapHandler fetches the list of k8s nodes
-func (api *API) ConfigMapHandler(c echo.Context) error {
+// ConfigMapsHandler fetches the list of k8s nodes
+func (api *API) ConfigMapsHandler(c echo.Context) error {
 	namespace := c.QueryParam("namespace")
 	pods, err := api.k8sClientset.CoreV1().ConfigMaps(namespace).List(metav1.ListOptions{})
 	if err != nil {
@@ -164,6 +165,22 @@ func (api *API) ConfigMapHandler(c echo.Context) error {
 		}{
 			Error:   err,
 			Message: "Couldn't fetch ConfigMaps",
+		})
+	}
+
+	return c.JSON(200, pods)
+}
+
+// ClusterRoleBindingsHandler fetches the list of k8s nodes
+func (api *API) ClusterRoleBindingsHandler(c echo.Context) error {
+	pods, err := api.k8sClientset.RbacV1().ClusterRoleBindings().List(metav1.ListOptions{})
+	if err != nil {
+		return c.JSON(500, struct {
+			Error   error
+			Message string
+		}{
+			Error:   err,
+			Message: "Couldn't fetch ClusterRoleBindings",
 		})
 	}
 

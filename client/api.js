@@ -28,3 +28,9 @@ export function CONFIGMAPS(namespace) {
     }
     return `api/v1/configmaps?namespace=${namespace}`;
 }
+export function CLUSTER_ROLE_BINDINGS(namespace) {
+    if (!namespace) {
+        namespace = "default";
+    }
+    return `api/v1/clusterrolebindings`;
+}
