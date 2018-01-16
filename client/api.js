@@ -29,3 +29,4 @@ export function CONFIG_MAPS(namespace) {
     return `api/v1/configmaps?namespace=${namespace}`;
 }
 export const CLUSTER_ROLE_BINDINGS = 'api/v1/clusterrolebindings';
+export const COMPONENT_STATUS = 'api/v1/componentstatus';

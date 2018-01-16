@@ -17,7 +17,7 @@ export function receiveConfigMaps(namespace, json) {
   return {
     type: RECEIVE_CONFIG_MAPS,
     namespace,
-    configmaps: json.items,
+    configMaps: json.items,
     receivedAt: Date.now()
   }
 }
@@ -49,16 +49,16 @@ export function fetchConfigMaps(namespace) {
 }
 
 export function shouldFetchConfigMaps(state, namespace) {
-  const configmaps = state.configmaps[namespace];
+  const configMaps = state.configMaps[namespace];
   var shouldFetch;
-  if (!configmaps) {
+  if (!configMaps) {
     shouldFetch =  true;
-  } else if (emptyObject(configmaps)) {
+  } else if (emptyObject(configMaps)) {
     shouldFetch =  true;
-  } else if (configmaps.isFetching) {
+  } else if (configMaps.isFetching) {
     shouldFetch =  false;
   } else {
-    shouldFetch = configmaps.didInvalidate;
+    shouldFetch = configMaps.didInvalidate;
   }
   return shouldFetch;
 }

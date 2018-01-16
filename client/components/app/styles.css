@@ -8,6 +8,5 @@ body {
 
 :global(#app) {
   display: inline-block;
-  padding: 0 px(100);
   width: 99%;
 }

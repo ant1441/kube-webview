@@ -6,7 +6,8 @@ import Toggle from 'react-toggle'
 // Manually imported
 // import '#localcss/react-toggle'
 
-import { nodes, p, link } from '../homepage/styles';
+import { p, link } from '../homepage/styles';
+import { nodes } from './styles';
 import { fetchNodesIfNeeded, invalidateNodes } from '#app/actions/nodes';
 import { setWide } from '#app/actions';
 import { expectJSON, timeSince } from '#app/utils';

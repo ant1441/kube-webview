@@ -5,7 +5,7 @@ import {
   INVALIDATE_CONFIG_MAPS,
 } from '#app/actions/configmaps';
 
-function configmaps(
+function configMaps(
   state = {
     isFetching: false,
     didInvalidate: true,
@@ -27,7 +27,7 @@ function configmaps(
           ...state,
           isFetching: false,
           didInvalidate: false,
-          items: action.configmaps,
+          items: action.configMaps,
           lastUpdated: action.receivedAt
       };
     case RECEIVE_CONFIG_MAPS_ERROR:
@@ -50,7 +50,7 @@ export default function configmapsByNamespace(state = {}, action) {
     case RECEIVE_CONFIG_MAPS:
     case RECEIVE_CONFIG_MAPS_ERROR:
       return Object.assign({}, state, {
-        [action.namespace]: configmaps(state[action.namespace], action)
+        [action.namespace]: configMaps(state[action.namespace], action)
       })
     default:
       return state

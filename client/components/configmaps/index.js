@@ -6,7 +6,8 @@ import Toggle from 'react-toggle'
 // Manually imported
 // import '#localcss/react-toggle'
 
-import { configmaps, p, link } from '../homepage/styles';
+import { p, link } from '../homepage/styles';
+import { configmaps } from './styles';
 import NamespaceSelect from '#app/components/namespaces-select';
 import { fetchNamespacesIfNeeded } from '#app/actions/namespaces';
 import { fetchConfigMapsIfNeeded, invalidateConfigMaps } from '#app/actions/configmaps';
@@ -96,12 +97,12 @@ class ConfigMaps extends Component {
 
 function mapStateToProps(state) {
   const selectedNamespace = state.namespaces && state.namespaces.selectedNamespace || "default";
-  const { configmaps } = state;
+  const { configMaps } = state;
   const {
     isFetching,
     lastUpdated,
     items
-  } = configmaps[selectedNamespace] || {
+  } = configMaps[selectedNamespace] || {
     isFetching: true,
     items: []
   }

@@ -12,6 +12,10 @@ import { fetchClusterRoleBindingsIfNeeded, invalidateClusterRoleBindings } from 
 import { setWide } from '#app/actions';
 import { expectJSON, timeSince } from '#app/utils';
 
+const GroupKind = "Group";
+const ServiceAccountKind = "ServiceAccount";
+const UserKind = "User";
+
 class ClusterRoleBindings extends Component {
 
   constructor(props) {
@@ -55,9 +59,11 @@ class ClusterRoleBindings extends Component {
       ];
       if (wide) {
         const role = `${clusterRoleBinding.roleRef.kind}/${clusterRoleBinding.roleRef.name}`;
-        const users = "...";
-        const groups = "...";
-        const serviceAccounts = "...";
+
+        const subjects = clusterRoleBinding.subjects || [];
+        const users = subjects.filter((s) => s.kind == UserKind).map((s) => s.name).join(', ');
+        const groups = subjects.filter((s) => s.kind == GroupKind).map((s) => s.name).join(', ');
+        const serviceAccounts = subjects.filter((s) => s.kind == ServiceAccountKind).map((s) => `${s.namespace}/${s.name}`).join(', ');
 
         items = items.concat([
           <td key={clusterRoleBinding.metadata.uid + "role"}>{role}</td>,

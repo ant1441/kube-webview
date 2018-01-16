@@ -12,6 +12,7 @@ import Services from '#app/components/services';
 import Ingress from '#app/components/ingress';
 import ConfigMaps from '#app/components/configmaps';
 import ClusterRoleBindings from '#app/components/clusterrolebindings';
+import ComponentStatus from '#app/components/componentstatus';
 
 /**
  * Returns configured routes for different
@@ -45,6 +46,7 @@ export default ({store, first}) => {
         <Route path="/ingress" component={Ingress} onEnter={w(Ingress.onEnter)}/>
         <Route path="/configmaps" component={ConfigMaps} onEnter={w(ConfigMaps.onEnter)}/>
         <Route path="/clusterrolebindings" component={ClusterRoleBindings} onEnter={w(ClusterRoleBindings.onEnter)}/>
+        <Route path="/componentstatus" component={ComponentStatus} onEnter={w(ComponentStatus.onEnter)}/>
         <Route path="/usage" component={Usage} onEnter={w(Usage.onEnter)}/>
         {/* Server redirect in action */}
         <Redirect from="/docs" to="/usage" />
