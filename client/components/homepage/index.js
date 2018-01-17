@@ -22,7 +22,7 @@ export default class Homepage extends Component {
           }
         ]} />
       <h1 className={title}>
-      Kubernetes Webview
+        Kubernetes Webview
       </h1>
       <ul>
         <li><Link className={link} to='/nodes'>Nodes</Link></li>
@@ -34,11 +34,6 @@ export default class Homepage extends Component {
         <li><Link className={link} to='/clusterrolebindings'>Cluster Role Bindings</Link></li>
         <li><Link className={link} to='/componentstatus'>Component Status</Link></li>
       </ul>
-
-      <br />
-      <p className={p}>
-        Please take a look at <Link className={link} to='/docs'>usage</Link> page.
-      </p>
     </div>;
   }
 

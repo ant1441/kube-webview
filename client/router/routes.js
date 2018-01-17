@@ -1,9 +1,8 @@
 import React from 'react';
-import { Route, IndexRoute, Redirect } from 'react-router';
+import { Route, IndexRoute } from 'react-router';
 import DevTools from '#app/components/dev-tools';
 import App from '#app/components/app';
 import Homepage from '#app/components/homepage';
-import Usage from '#app/components/usage';
 import NotFound from '#app/components/not-found';
 import Nodes from '#app/components/nodes';
 import Namespaces from '#app/components/namespaces';
@@ -47,9 +46,7 @@ export default ({store, first}) => {
         <Route path="/configmaps" component={ConfigMaps} onEnter={w(ConfigMaps.onEnter)}/>
         <Route path="/clusterrolebindings" component={ClusterRoleBindings} onEnter={w(ClusterRoleBindings.onEnter)}/>
         <Route path="/componentstatus" component={ComponentStatus} onEnter={w(ComponentStatus.onEnter)}/>
-        <Route path="/usage" component={Usage} onEnter={w(Usage.onEnter)}/>
-        {/* Server redirect in action */}
-        <Redirect from="/docs" to="/usage" />
+
         <Route path="*" component={NotFound} onEnter={w(NotFound.onEnter)}/>
       </Route>
     </div>
