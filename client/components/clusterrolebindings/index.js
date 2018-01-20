@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import Toggle from 'react-toggle'
 // Manually imported
 // import '#localcss/react-toggle'
+
+import ResourceTable from '#app/components/material/resource-table';
 
 import { p, link } from '../homepage/styles';
 import { clusterRoleBindings } from './styles';
@@ -54,8 +56,8 @@ class ClusterRoleBindings extends Component {
       const age = timeSince(new Date(clusterRoleBinding.metadata.creationTimestamp));
 
       let items = [
-        <td key={clusterRoleBinding.metadata.uid + "name"}>{name}</td>,
-        <td key={clusterRoleBinding.metadata.uid + "age"}>{age}</td>,
+        {key: clusterRoleBinding.metadata.uid + "name", value: name},
+        {key: clusterRoleBinding.metadata.uid + "age", value: age},
       ];
       if (wide) {
         const role = `${clusterRoleBinding.roleRef.kind}/${clusterRoleBinding.roleRef.name}`;
@@ -66,27 +68,25 @@ class ClusterRoleBindings extends Component {
         const serviceAccounts = subjects.filter((s) => s.kind == ServiceAccountKind).map((s) => `${s.namespace}/${s.name}`).join(', ');
 
         items = items.concat([
-          <td key={clusterRoleBinding.metadata.uid + "role"}>{role}</td>,
-          <td key={clusterRoleBinding.metadata.uid + "users"}>{users}</td>,
-          <td key={clusterRoleBinding.metadata.uid + "groups"}>{groups}</td>,
-          <td key={clusterRoleBinding.metadata.uid + "serviceAccounts"}>{serviceAccounts}</td>,
+          {key: clusterRoleBinding.metadata.uid + "role", value: role},
+          {key: clusterRoleBinding.metadata.uid + "users", value: users},
+          {key: clusterRoleBinding.metadata.uid + "groups", value: groups},
+          {key: clusterRoleBinding.metadata.uid + "serviceAccounts", value: serviceAccounts},
         ]);
       }
-      return <tr key={clusterRoleBinding.metadata.uid}>
-        {items}
-      </tr>;
+      return items;
     });
 
     let tableHeaderItems = [
-      <th key="1">Name</th>,
-      <th key="2">Age</th>,
+      "Name",
+      "Age",
     ];
     if (wide) {
       tableHeaderItems = tableHeaderItems.concat([
-        <th key="3">Role</th>,
-        <th key="4">Users</th>,
-        <th key="5">Groups</th>,
-        <th key="6">Service Accounts</th>,
+        "Role",
+        "Users",
+        "Groups",
+        "Service Accounts",
       ]);
     }
 
@@ -103,20 +103,7 @@ class ClusterRoleBindings extends Component {
       <Link onClick={this.handleRefreshClick}>
         <span>Refresh</span>
       </Link>
-      <div className={p}>
-        <table>
-          <thead>
-            <tr>
-            {tableHeaderItems}
-            </tr>
-          </thead>
-          <tbody>
-          {clusterRoleBindingsItems}
-          </tbody>
-        </table>
-      </div>
-      <br />
-      go <IndexLink to='/' className={link}>home</IndexLink>
+      <ResourceTable tableHeaderItems={tableHeaderItems} items={clusterRoleBindingsItems} />
     </div>;
   }
 }

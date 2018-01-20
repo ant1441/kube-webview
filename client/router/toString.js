@@ -6,7 +6,7 @@ import Helmet from 'react-helmet';
 
 import createRoutes from './routes';
 import { createStore, setAsCurrentStore } from '../store';
-import getTheme from '../material';
+import { createTheme, setAsCurrentTheme } from '../material';
 
 /**
  * Handle HTTP request at Golang server
@@ -41,7 +41,8 @@ export default function (options, cbk) {
 
         } else {
           const ua = navigator.userAgent;
-          const muiTheme = getTheme(ua);
+          const muiTheme = createTheme(ua);
+          setAsCurrentTheme(muiTheme);
 
           result.app = renderToString(
             <Provider store={store}>

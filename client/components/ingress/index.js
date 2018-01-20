@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import Toggle from 'react-toggle'
 // Manually imported
 // import '#localcss/react-toggle'
+
+import ResourceTable from '#app/components/material/resource-table';
 
 import { p, link } from '../homepage/styles';
 import { ingress } from './styles';
@@ -76,23 +78,21 @@ class Ingress extends Component {
       const age = timeSince(new Date(service.metadata.creationTimestamp));
 
       let items = [
-        <td key={service.metadata.uid + "name"}>{name}</td>,
-        <td key={service.metadata.uid + "hosts"}>{hosts}</td>,
-        <td key={service.metadata.uid + "address"}>{address}</td>,
-        <td key={service.metadata.uid + "ports"}>{ports}</td>,
-        <td key={service.metadata.uid + "age"}>{age}</td>,
+        {key: service.metadata.uid + "name", value: name},
+        {key: service.metadata.uid + "hosts", value: hosts},
+        {key: service.metadata.uid + "address", value: address},
+        {key: service.metadata.uid + "ports", value: ports},
+        {key: service.metadata.uid + "age", value: age},
       ];
-      return <tr key={service.metadata.uid}>
-        {items}
-      </tr>;
+      return items;
     });
 
     let tableHeaderItems = [
-      <th key="1">Name</th>,
-      <th key="2">Hosts</th>,
-      <th key="3">Address</th>,
-      <th key="4">Port(s)</th>,
-      <th key="5">Age</th>,
+      "Name",
+      "Hosts",
+      "Address",
+      "Port(s)",
+      "Age",
     ];
 
     return <div className={ingress}>
@@ -111,20 +111,7 @@ class Ingress extends Component {
       <Link onClick={this.handleRefreshClick}>
         <span>Refresh</span>
       </Link>
-      <div className={p}>
-        <table>
-          <thead>
-            <tr>
-            {tableHeaderItems}
-            </tr>
-          </thead>
-          <tbody>
-          {ingressItems}
-          </tbody>
-        </table>
-      </div>
-      <br />
-      go <IndexLink to='/' className={link}>home</IndexLink>
+      <ResourceTable tableHeaderItems={tableHeaderItems} items={ingressItems} />
     </div>;
   }
 }

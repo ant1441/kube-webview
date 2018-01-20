@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import Toggle from 'react-toggle'
 // Manually imported
 // import '#localcss/react-toggle'
+
+import ResourceTable from '#app/components/material/resource-table';
 
 import { p, link } from '../homepage/styles';
 import { configmaps } from './styles';
@@ -53,19 +55,17 @@ class ConfigMaps extends Component {
       const age = timeSince(new Date(configmap.metadata.creationTimestamp));
 
       let items = [
-        <td key={configmap.metadata.uid + "name"}>{name}</td>,
-        <td key={configmap.metadata.uid + "data"}>{data}</td>,
-        <td key={configmap.metadata.uid + "age"}>{age}</td>,
+        {key: configmap.metadata.uid + "name", value: name},
+        {key: configmap.metadata.uid + "data", value: data},
+        {key: configmap.metadata.uid + "age", value: age},
       ];
-      return <tr key={configmap.metadata.uid}>
-        {items}
-      </tr>;
+      return items;
     });
 
     let tableHeaderItems = [
-      <th key="1">Name</th>,
-      <th key="2">Data</th>,
-      <th key="3">Age</th>,
+      "Name",
+      "Data",
+      "Age",
     ];
 
     return <div className={configmaps}>
@@ -77,20 +77,7 @@ class ConfigMaps extends Component {
       <Link onClick={this.handleRefreshClick}>
         <span>Refresh</span>
       </Link>
-      <div className={p}>
-        <table>
-          <thead>
-            <tr>
-            {tableHeaderItems}
-            </tr>
-          </thead>
-          <tbody>
-          {configmapsItems}
-          </tbody>
-        </table>
-      </div>
-      <br />
-      go <IndexLink to='/' className={link}>home</IndexLink>
+      <ResourceTable tableHeaderItems={tableHeaderItems} items={configmapsItems} />
     </div>;
   }
 }

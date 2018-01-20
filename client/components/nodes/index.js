@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import Toggle from 'react-toggle'
 // Manually imported
 // import '#localcss/react-toggle'
+
+import ResourceTable from '#app/components/material/resource-table';
 
 import { p, link } from '../homepage/styles';
 import { nodes } from './styles';
 import { fetchNodesIfNeeded, invalidateNodes } from '#app/actions/nodes';
 import { setWide } from '#app/actions';
 import { expectJSON, timeSince } from '#app/utils';
+
 
 const LABEL_NODE_ROLE_MASTER = "node-role.kubernetes.io/master";
 
@@ -59,11 +62,11 @@ class Nodes extends Component {
       const version = node.status.nodeInfo.kubeletVersion;
 
       let items = [
-        <td key={node.metadata.uid + "name"}>{name}</td>,
-        <td key={node.metadata.uid + "status"}>{status}</td>,
-        <td key={node.metadata.uid + "roles"}>{roles.join(", ")}</td>,
-        <td key={node.metadata.uid + "age"}>{age}</td>,
-        <td key={node.metadata.uid + "version"}>{version}</td>,
+        {key: `${node.metadata.uid}_name`, value: name},
+        {key: `${node.metadata.uid}_status`, value: status},
+        {key: `${node.metadata.uid}_roles`, value: roles.join(", ")},
+        {key: `${node.metadata.uid}_age`, value: age},
+        {key: `${node.metadata.uid}_version`, value: version},
       ];
       if (wide) {
         const externalIP = node.status.nodeInfo.externalIP || "None";
@@ -72,30 +75,28 @@ class Nodes extends Component {
         const containerRuntime = node.status.nodeInfo.containerRuntimeVersion;
 
         items = items.concat([
-          <td key={node.metadata.uid + "external-ip"}>{externalIP}</td>,
-          <td key={node.metadata.uid + "os-image"}>{osImage}</td>,
-          <td key={node.metadata.uid + "kernel-version"}>{kernelVersion}</td>,
-          <td key={node.metadata.uid + "container-runtime"}>{containerRuntime}</td>,
+          {key: `${node.metadata.uid}_external-ip`, value: externalIP},
+          {key: `${node.metadata.uid}_os-image`, value: osImage},
+          {key: `${node.metadata.uid}_kernel-version`, value: kernelVersion},
+          {key: `${node.metadata.uid}_container-runtime`, value: containerRuntime},
         ]);
       }
-      return <tr key={node.metadata.uid}>
-        {items}
-      </tr>;
+      return items;
     });
 
     let tableHeaderItems = [
-      <th key="1">Name</th>,
-      <th key="2">Status</th>,
-      <th key="3">Roles</th>,
-      <th key="4">Age</th>,
-      <th key="5">Version</th>,
+      "Name",
+      "Status",
+      "Roles",
+      "Age",
+      "Version",
     ];
     if (wide) {
       tableHeaderItems = tableHeaderItems.concat([
-        <th key="6">External IP</th>,
-        <th key="7">OS Image</th>,
-        <th key="8">Kernel Version</th>,
-        <th key="9">Container Runtime</th>,
+        "External IP",
+        "OS Image",
+        "Kernel Version",
+        "Container Runtime",
       ]);
     }
 
@@ -112,20 +113,7 @@ class Nodes extends Component {
       <Link onClick={this.handleRefreshClick}>
         <span>Refresh</span>
       </Link>
-      <div className={p}>
-        <table>
-          <thead>
-            <tr>
-            {tableHeaderItems}
-            </tr>
-          </thead>
-          <tbody>
-          {nodesItems}
-          </tbody>
-        </table>
-      </div>
-      <br />
-      go <IndexLink to='/' className={link}>home</IndexLink>
+      <ResourceTable tableHeaderItems={tableHeaderItems} items={nodesItems} />
     </div>;
   }
 }

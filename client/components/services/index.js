@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import Toggle from 'react-toggle'
 // Manually imported
 // import '#localcss/react-toggle'
+
+import ResourceTable from '#app/components/material/resource-table';
 
 import { p, link } from '../homepage/styles';
 import { services } from './styles';
@@ -111,36 +113,34 @@ class Services extends Component {
       const age = timeSince(new Date(service.metadata.creationTimestamp));
 
       let items = [
-        <td key={service.metadata.uid + "name"}>{name}</td>,
-        <td key={service.metadata.uid + "type"}>{type}</td>,
-        <td key={service.metadata.uid + "cluster-ip"}>{clusterIP}</td>,
-        <td key={service.metadata.uid + "external-ip"}>{externalIP}</td>,
-        <td key={service.metadata.uid + "ports"}>{ports}</td>,
-        <td key={service.metadata.uid + "age"}>{age}</td>,
+        {key: service.metadata.uid + "name", value: name},
+        {key: service.metadata.uid + "type", value: type},
+        {key: service.metadata.uid + "cluster-ip", value: clusterIP},
+        {key: service.metadata.uid + "external-ip", value: externalIP},
+        {key: service.metadata.uid + "ports", value: ports},
+        {key: service.metadata.uid + "age", value: age},
       ];
       if (wide) {
         const selector = service.spec.selector ? Object.entries(service.spec.selector).map((e) => `${e[0]}=${e[1]}`).join(', ') : "<none>";
 
         items = items.concat([
-          <td key={service.metadata.uid + "selector"}>{selector}</td>,
+          {key: service.metadata.uid + "selector", value: selector},
         ]);
       }
-      return <tr key={service.metadata.uid}>
-        {items}
-      </tr>;
+      return items;
     });
 
     let tableHeaderItems = [
-      <th key="1">Name</th>,
-      <th key="2">Type</th>,
-      <th key="3">Cluster IP</th>,
-      <th key="4">External IP</th>,
-      <th key="5">Port(s)</th>,
-      <th key="6">Age</th>,
+      "Name",
+      "Type",
+      "Cluster IP",
+      "External IP",
+      "Port(s)",
+      "Age",
     ];
     if (wide) {
       tableHeaderItems = tableHeaderItems.concat([
-        <th key="7">Selector</th>,
+        "Selector",
       ]);
     }
 
@@ -160,20 +160,7 @@ class Services extends Component {
       <Link onClick={this.handleRefreshClick}>
         <span>Refresh</span>
       </Link>
-      <div className={p}>
-        <table>
-          <thead>
-            <tr>
-            {tableHeaderItems}
-            </tr>
-          </thead>
-          <tbody>
-          {servicesItems}
-          </tbody>
-        </table>
-      </div>
-      <br />
-      go <IndexLink to='/' className={link}>home</IndexLink>
+      <ResourceTable tableHeaderItems={tableHeaderItems} items={servicesItems} />
     </div>;
   }
 }

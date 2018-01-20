@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { IndexLink, Link } from 'react-router';
+import { Link } from 'react-router';
 import Toggle from 'react-toggle'
 // Manually imported
 // import '#localcss/react-toggle'
+
+import ResourceTable from '#app/components/material/resource-table';
 
 import { pods, p, link } from '../homepage/styles';
 import NamespaceSelect from '#app/components/namespaces-select';
@@ -12,6 +14,7 @@ import { fetchNamespacesIfNeeded } from '#app/actions/namespaces';
 import { fetchPodsIfNeeded, invalidatePods } from '#app/actions/pods';
 import { setWide } from '#app/actions';
 import { expectJSON, timeSince } from '#app/utils';
+
 
 const NodeUnreachablePodReason = "NodeLost";
 
@@ -132,37 +135,35 @@ class Pods extends Component {
       const age = timeSince(new Date(pod.metadata.creationTimestamp));
 
       let items = [
-        <td key={pod.metadata.uid + "name"}>{name}</td>,
-        <td key={pod.metadata.uid + "ready"}>{ready}</td>,
-        <td key={pod.metadata.uid + "status"}>{status}</td>,
-        <td key={pod.metadata.uid + "restarts"}>{restarts}</td>,
-        <td key={pod.metadata.uid + "age"}>{age}</td>,
+        {key: pod.metadata.uid + "name", value: name},
+        {key: pod.metadata.uid + "ready", value: ready},
+        {key: pod.metadata.uid + "status", value: status},
+        {key: pod.metadata.uid + "restarts", value: restarts},
+        {key: pod.metadata.uid + "age", value: age},
       ];
       if (wide) {
         const ip = pod.status.podIP;
         const node = pod.spec.nodeName;
 
         items = items.concat([
-          <td key={pod.metadata.uid + "ip"}>{ip}</td>,
-          <td key={pod.metadata.uid + "node"}>{node}</td>,
+          {key: pod.metadata.uid + "ip", value: ip},
+          {key: pod.metadata.uid + "node", value: node},
         ]);
       }
-      return <tr key={pod.metadata.uid}>
-        {items}
-      </tr>;
+      return items;
     });
 
     let tableHeaderItems = [
-      <th key="1">Name</th>,
-      <th key="2">Ready</th>,
-      <th key="3">Status</th>,
-      <th key="4">Restarts</th>,
-      <th key="5">Age</th>,
+      "Name",
+      "Ready",
+      "Status",
+      "Restarts",
+      "Age",
     ];
     if (wide) {
       tableHeaderItems = tableHeaderItems.concat([
-        <th key="6">IP</th>,
-        <th key="7">Node</th>,
+        "IP",
+        "Node",
       ]);
     }
 
@@ -182,20 +183,7 @@ class Pods extends Component {
       <Link onClick={this.handleRefreshClick}>
         <span>Refresh</span>
       </Link>
-      <div className={p}>
-        <table>
-          <thead>
-            <tr>
-            {tableHeaderItems}
-            </tr>
-          </thead>
-          <tbody>
-          {podsItems}
-          </tbody>
-        </table>
-      </div>
-      <br />
-      go <IndexLink to='/' className={link}>home</IndexLink>
+      <ResourceTable tableHeaderItems={tableHeaderItems} items={podsItems} />
     </div>;
   }
 }

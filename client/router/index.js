@@ -9,7 +9,7 @@ import { Promise } from 'when';
 import toString from './toString';
 import createRoutes from './routes';
 import { createStore, setAsCurrentStore } from '../store';
-import getTheme from '../material';
+import { createTheme, setAsCurrentTheme } from '../material';
 
 
 export function run() {
@@ -27,7 +27,8 @@ export function run() {
   const history = syncHistoryWithStore(browserHistory, store)
 
   const ua = navigator.userAgent;
-  const muiTheme = getTheme(ua);
+  const muiTheme = createTheme(ua);
+  setAsCurrentTheme(muiTheme);
 
   render(
     <Provider store={store} >
