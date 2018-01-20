@@ -21,9 +21,6 @@ export default class Homepage extends Component {
             content: 'Webview for Kubernetes'
           }
         ]} />
-      <h1 className={title}>
-        Kubernetes Webview
-      </h1>
       <ul>
         <li><Link className={link} to='/nodes'>Nodes</Link></li>
         <li><Link className={link} to='/namespaces'>Namespaces</Link></li>

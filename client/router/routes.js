@@ -1,6 +1,8 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
+
 import DevTools from '#app/components/dev-tools';
+
 import App from '#app/components/app';
 import Homepage from '#app/components/homepage';
 import NotFound from '#app/components/not-found';
@@ -35,6 +37,7 @@ export default ({store, first}) => {
 
   return (
     <div>
+
       <DevTools />
       <Route path="/" component={App}>
         <IndexRoute component={Homepage} onEnter={w(Homepage.onEnter)}/>

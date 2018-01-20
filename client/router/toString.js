@@ -3,8 +3,10 @@ import { Provider } from 'react-redux';
 import { renderToString } from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
 import Helmet from 'react-helmet';
+
 import createRoutes from './routes';
 import { createStore, setAsCurrentStore } from '../store';
+import getTheme from '../material';
 
 /**
  * Handle HTTP request at Golang server
@@ -38,9 +40,14 @@ export default function (options, cbk) {
           result.redirect = redirectLocation.pathname + redirectLocation.search;
 
         } else {
+          const ua = navigator.userAgent;
+          const muiTheme = getTheme(ua);
+
           result.app = renderToString(
             <Provider store={store}>
-              <RouterContext {...renderProps} />
+              <MuiThemeProvider muiTheme={muiTheme}>
+                <RouterContext {...renderProps} />
+              </MuiThemeProvider>
             </Provider>
           );
           const { title, meta } = Helmet.rewind();

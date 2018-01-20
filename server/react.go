@@ -231,7 +231,12 @@ type JSVM struct {
 // Handle handles http requests
 func (r *JSVM) Handle(req map[string]interface{}) <-chan Resp {
 	r.EventLoop.RunOnLoop(func(vm *goja.Runtime) {
-		r.fn(nil, vm.ToValue(req), vm.ToValue("__goServerCallback__"))
+		v, err := r.fn(nil, vm.ToValue(req), vm.ToValue("__goServerCallback__"))
+		if err != nil {
+			fmt.Printf("Error server side rendering: %v\n", err)
+		} else if !(v == nil || goja.IsNull(v) || goja.IsUndefined(v)) {
+			fmt.Printf("Unexpected return when server side rendering: %v (%T)\n", v, v)
+		}
 	})
 	return r.ch
 }

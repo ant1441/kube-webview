@@ -2,11 +2,14 @@ import React from 'react';
 import { render } from 'react-dom';
 import { Router, browserHistory } from 'react-router';
 import { Provider } from 'react-redux';
-import toString from './toString';
+import { syncHistoryWithStore } from 'react-router-redux'
+import { MuiThemeProvider } from 'material-ui/styles';
 import { Promise } from 'when';
+
+import toString from './toString';
 import createRoutes from './routes';
 import { createStore, setAsCurrentStore } from '../store';
-import { syncHistoryWithStore } from 'react-router-redux'
+import getTheme from '../material';
 
 
 export function run() {
@@ -23,10 +26,14 @@ export function run() {
   // Create an enhanced history that syncs navigation events with the store
   const history = syncHistoryWithStore(browserHistory, store)
 
-      //{ process.env.NODE_ENV !== 'production' && <DevTools /> }
+  const ua = navigator.userAgent;
+  const muiTheme = getTheme(ua);
+
   render(
     <Provider store={store} >
+      <MuiThemeProvider muiTheme={muiTheme}>
         <Router history={history}>{createRoutes({store, first: { time: true }})}</Router>
+      </MuiThemeProvider>
     </Provider>,
     document.getElementById('app')
   );

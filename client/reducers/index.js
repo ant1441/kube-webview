@@ -9,6 +9,7 @@ import ingress from './ingress';
 import configMaps from './configmaps';
 import clusterrolebindings from './clusterrolebindings';
 import componentStatus from './componentstatus';
+import material from './material';
 
 function config(state = { wide: false }, action) {
   switch (action.type) {
@@ -31,5 +32,6 @@ export default combineReducers({
     configMaps,
     clusterrolebindings,
     componentStatus,
+    material,
     routing: routerReducer
 });
