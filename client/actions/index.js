@@ -14,6 +14,7 @@ export function setConfig(config) {
 }
 
 export function setWide(wide) {
+  // TODO: Can I store this in a query string for shareable URLs?
   return {
     type: SET_WIDE,
     wide: wide,

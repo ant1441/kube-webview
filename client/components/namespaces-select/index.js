@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Select from 'react-select';
 
-
 import { fetchNamespacesIfNeeded, setSelectedNamespace } from '#app/actions/namespaces';
 
 class NamespaceSelect extends Component {

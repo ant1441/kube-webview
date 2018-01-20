@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-import Toggle from 'react-toggle'
-// Manually imported
-// import '#localcss/react-toggle'
+import { Toggle } from 'material-ui';
 
 import ResourceTable from '#app/components/material/resource-table';
 
@@ -98,13 +96,11 @@ class Ingress extends Component {
     return <div className={ingress}>
       <Helmet title='Kubernetes Ingress' />
       <h2>Ingress:</h2>
-      <label>
-        <Toggle
-          defaultChecked={wide}
-          icons={false}
-          onChange={this.handleWideChange} />
-        <span>Wide</span>
-      </label>
+      <Toggle
+        label="Wide"
+        toggled={wide}
+        onToggle={this.handleWideChange}
+        />
       <NamespaceSelect
         onChange={this.handleSelectNamespace}
       />

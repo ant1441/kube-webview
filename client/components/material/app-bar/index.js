@@ -22,7 +22,6 @@ class MyAppBar extends Component {
   render() {
     return <AppBar
       title={<Link className={title} to='/'>Kubernetes Webview</Link>}
-      iconClassNameRight="muidocs-icon-navigation-expand-more"
       onLeftIconButtonClick={this.handleLeftButtonClick}
     />;
   }

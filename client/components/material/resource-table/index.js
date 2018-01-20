@@ -9,8 +9,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-import Toggle from 'react-toggle'
-import { Link } from 'react-router';
 
 export default class ResourceTable extends Component {
 

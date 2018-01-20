@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { Link } from 'react-router';
-import Toggle from 'react-toggle'
-// Manually imported
-// import '#localcss/react-toggle'
 
 import ResourceTable from '#app/components/material/resource-table';
 
