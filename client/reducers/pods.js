@@ -15,7 +15,11 @@ function pods(
 ) {
   switch (action.type) {
     case INVALIDATE_PODS:
-      return { ...state, didInvalidate: true };
+      const newState0 = Object.assign({}, state, {
+        didInvalidate: true,
+      })
+      delete newState0.error;
+      return newState0;
     case REQUEST_PODS:
       return {
           ...state,
@@ -23,13 +27,14 @@ function pods(
           didInvalidate: false
       };
     case RECEIVE_PODS:
-      return {
-          ...state,
-          isFetching: false,
-          didInvalidate: false,
-          items: action.pods,
-          lastUpdated: action.receivedAt
-      };
+      const newState = Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        items: action.pods,
+        lastUpdated: action.receivedAt
+      });
+      delete newState.error;
+      return newState;
     case RECEIVE_PODS_ERROR:
       return {
           ...state,

@@ -15,7 +15,11 @@ function ingress(
 ) {
   switch (action.type) {
     case INVALIDATE_INGRESS:
-      return { ...state, didInvalidate: true };
+      const newState0 = Object.assign({}, state, {
+        didInvalidate: true,
+      })
+      delete newState0.error;
+      return newState0;
     case REQUEST_INGRESS:
       return {
           ...state,
@@ -23,13 +27,14 @@ function ingress(
           didInvalidate: false
       };
     case RECEIVE_INGRESS:
-      return {
-          ...state,
-          isFetching: false,
-          didInvalidate: false,
-          items: action.ingress,
-          lastUpdated: action.receivedAt
-      };
+      const newState = Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        items: action.ingress,
+        lastUpdated: action.receivedAt
+      });
+      delete newState.error;
+      return newState;
     case RECEIVE_INGRESS_ERROR:
       return {
           ...state,

@@ -15,7 +15,11 @@ function services(
 ) {
   switch (action.type) {
     case INVALIDATE_SERVICES:
-      return { ...state, didInvalidate: true };
+      const newState0 = Object.assign({}, state, {
+        didInvalidate: true,
+      })
+      delete newState0.error;
+      return newState0;
     case REQUEST_SERVICES:
       return {
           ...state,
@@ -23,13 +27,14 @@ function services(
           didInvalidate: false
       };
     case RECEIVE_SERVICES:
-      return {
-          ...state,
-          isFetching: false,
-          didInvalidate: false,
-          items: action.services,
-          lastUpdated: action.receivedAt
-      };
+      const newState = Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        items: action.services,
+        lastUpdated: action.receivedAt
+      });
+      delete newState.error;
+      return newState;
     case RECEIVE_SERVICES_ERROR:
       return {
           ...state,

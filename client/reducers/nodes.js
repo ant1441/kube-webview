@@ -15,7 +15,11 @@ export default function nodes(
 ) {
   switch (action.type) {
     case INVALIDATE_NODES:
-      return { ...state, didInvalidate: true };
+      const newState0 = Object.assign({}, state, {
+        didInvalidate: true,
+      })
+      delete newState0.error;
+      return newState0;
     case REQUEST_NODES:
       return {
           ...state,
@@ -23,13 +27,14 @@ export default function nodes(
           didInvalidate: false
       };
     case RECEIVE_NODES:
-      return {
-          ...state,
-          isFetching: false,
-          didInvalidate: false,
-          items: action.nodes,
-          lastUpdated: action.receivedAt
-      };
+      const newState = Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        items: action.nodes,
+        lastUpdated: action.receivedAt
+      });
+      delete newState.error;
+      return newState;
     case RECEIVE_NODES_ERROR:
       return {
           ...state,

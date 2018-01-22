@@ -8,7 +8,7 @@ import ResourceTable from '#app/components/material/resource-table';
 
 import { p, link } from '../homepage/styles';
 import { services } from './styles';
-import NamespaceSelect from '#app/components/namespaces-select';
+import NamespaceSelect from '#app/components/material/namespaces-select';
 import { fetchNamespacesIfNeeded } from '#app/actions/namespaces';
 import { fetchServicesIfNeeded, invalidateServices } from '#app/actions/services';
 import { setWide } from '#app/actions';

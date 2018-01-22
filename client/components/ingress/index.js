@@ -8,7 +8,7 @@ import ResourceTable from '#app/components/material/resource-table';
 
 import { p, link } from '../homepage/styles';
 import { ingress } from './styles';
-import NamespaceSelect from '#app/components/namespaces-select';
+import NamespaceSelect from '#app/components/material/namespaces-select';
 import { fetchNamespacesIfNeeded } from '#app/actions/namespaces';
 import { fetchIngressIfNeeded, invalidateIngress } from '#app/actions/ingress';
 import { setWide } from '#app/actions';

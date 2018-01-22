@@ -45,7 +45,7 @@ function itemToRow(item, component=TableRowColumn) {
     const key = item.key === undefined ? item : item.key;
     const value = item.value === undefined ? item : item.value;
 
-    if (typeof key !== 'string' || typeof value !== 'string') {
+    if (key.toString() === 'undefined' || value.toString() === 'undefined') {
       throw new Error(`Invalid item passed to itemToRow: ${JSON.stringify(item)}`);
     }
 

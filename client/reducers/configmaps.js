@@ -15,7 +15,11 @@ function configMaps(
 ) {
   switch (action.type) {
     case INVALIDATE_CONFIG_MAPS:
-      return { ...state, didInvalidate: true };
+      const newState0 = Object.assign({}, state, {
+        didInvalidate: true,
+      })
+      delete newState0.error;
+      return newState0;
     case REQUEST_CONFIG_MAPS:
       return {
           ...state,
@@ -23,13 +27,14 @@ function configMaps(
           didInvalidate: false
       };
     case RECEIVE_CONFIG_MAPS:
-      return {
-          ...state,
-          isFetching: false,
-          didInvalidate: false,
-          items: action.configMaps,
-          lastUpdated: action.receivedAt
-      };
+      const newState = Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        items: action.configMaps,
+        lastUpdated: action.receivedAt
+      });
+      delete newState.error;
+      return newState;
     case RECEIVE_CONFIG_MAPS_ERROR:
       return {
           ...state,

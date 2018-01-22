@@ -7,7 +7,7 @@ import ResourceTable from '#app/components/material/resource-table';
 
 import { p, link } from '../homepage/styles';
 import { configmaps } from './styles';
-import NamespaceSelect from '#app/components/namespaces-select';
+import NamespaceSelect from '#app/components/material/namespaces-select';
 import { fetchNamespacesIfNeeded } from '#app/actions/namespaces';
 import { fetchConfigMapsIfNeeded, invalidateConfigMaps } from '#app/actions/configmaps';
 import { expectJSON, timeSince } from '#app/utils';

@@ -19,7 +19,11 @@ export default function namespaces(
     case SET_SELECTED_NAMESPACE:
       return { ...state, selectedNamespace: action.namespace };
     case INVALIDATE_NAMESPACES:
-      return { ...state, didInvalidate: true };
+      const newState0 = Object.assign({}, state, {
+        didInvalidate: true,
+      })
+      delete newState0.error;
+      return newState0;
     case REQUEST_NAMESPACES:
       return {
           ...state,
@@ -27,13 +31,14 @@ export default function namespaces(
           didInvalidate: false
       };
     case RECEIVE_NAMESPACES:
-      return {
-          ...state,
-          isFetching: false,
-          didInvalidate: false,
-          items: action.namespaces,
-          lastUpdated: action.receivedAt
-      };
+      const newState = Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        items: action.namespaces,
+        lastUpdated: action.receivedAt
+      });
+      delete newState.error;
+      return newState;
     case RECEIVE_NAMESPACES_ERROR:
       return {
           ...state,

@@ -15,7 +15,11 @@ export default function componentStatus(
 ) {
   switch (action.type) {
     case INVALIDATE_COMPONENT_STATUS:
-      return { ...state, didInvalidate: true };
+      const newState0 = Object.assign({}, state, {
+        didInvalidate: true,
+      })
+      delete newState0.error;
+      return newState0;
     case REQUEST_COMPONENT_STATUS:
       return {
           ...state,
@@ -23,13 +27,14 @@ export default function componentStatus(
           didInvalidate: false
       };
     case RECEIVE_COMPONENT_STATUS:
-      return {
-          ...state,
-          isFetching: false,
-          didInvalidate: false,
-          items: action.componentStatus,
-          lastUpdated: action.receivedAt
-      };
+      const newState = Object.assign({}, state, {
+        isFetching: false,
+        didInvalidate: false,
+        items: action.componentStatus,
+        lastUpdated: action.receivedAt
+      });
+      delete newState.error;
+      return newState;
     case RECEIVE_COMPONENT_STATUS_ERROR:
       return {
           ...state,

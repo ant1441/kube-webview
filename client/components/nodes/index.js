@@ -5,10 +5,11 @@ import { Link } from 'react-router';
 import { Toggle } from 'material-ui';
 
 import ResourceTable from '#app/components/material/resource-table';
+import FetchError from '#app/components/material/fetch-error';
 
 import { p, link } from '../homepage/styles';
 import { nodes } from './styles';
-import { fetchNodesIfNeeded, invalidateNodes } from '#app/actions/nodes';
+import { fetchNodes, fetchNodesIfNeeded, invalidateNodes } from '#app/actions/nodes';
 import { setWide } from '#app/actions';
 import { expectJSON, timeSince } from '#app/utils';
 
@@ -21,6 +22,8 @@ class Nodes extends Component {
     super(props);
     this.handleWideChange = this.handleWideChange.bind(this);
     this.handleRefreshClick = this.handleRefreshClick.bind(this)
+    this.handleRetryClick = this.handleRetryClick.bind(this)
+    this.handleDismissError = this.handleDismissError.bind(this)
   }
 
   componentDidMount() {
@@ -30,12 +33,28 @@ class Nodes extends Component {
     dispatch(fetchNodesIfNeeded())
   }
 
+  handleRetryClick(e) {
+    const { dispatch } = this.props
+
+    dispatch(invalidateNodes())
+    // Resetting the error too quickly breaks the modal
+    setTimeout(this.handleRefreshClick, 500, e);
+  }
+
   handleRefreshClick(e) {
+    e.preventDefault()
+    console.log("REFRESH");
+
+    const { dispatch } = this.props
+    dispatch(invalidateNodes())
+    dispatch(fetchNodes())
+  }
+
+  handleDismissError(e) {
     e.preventDefault()
 
     const { dispatch } = this.props
     dispatch(invalidateNodes())
-    dispatch(fetchNodesIfNeeded())
   }
 
   handleWideChange(event) {
@@ -46,7 +65,7 @@ class Nodes extends Component {
   }
 
   render() {
-    const { items, isFetching, lastUpdated, wide } = this.props;
+    const { items, isFetching, lastUpdated, error, wide } = this.props;
 
     const nodesItems = items.map((node) => {
       const name = node.metadata.name;
@@ -100,6 +119,9 @@ class Nodes extends Component {
 
     return <div className={nodes}>
       <Helmet title='Kubernetes Nodes' />
+      <FetchError name="Nodes" error={error}
+                  handleRetryClick={this.handleRetryClick}
+                  handleClose={this.handleDismissError} />
       <h2>Nodes:</h2>
       <Toggle
         label="Wide"
@@ -120,12 +142,14 @@ function mapStateToProps(state) {
   const lastUpdated = nodes.lastUpdated;
   const items = nodes.items || [];
   const wide = state.config && state.config.wide
+  const error = nodes.error;
 
   return {
     items,
     isFetching,
     lastUpdated,
-    wide
+    wide,
+    error
   }
 }
 

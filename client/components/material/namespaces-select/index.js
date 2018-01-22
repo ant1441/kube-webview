@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Select from 'react-select';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import MenuItem from 'material-ui/MenuItem';
 
 import { fetchNamespacesIfNeeded, setSelectedNamespace } from '#app/actions/namespaces';
 
@@ -16,12 +17,13 @@ class NamespaceSelect extends Component {
     dispatch(fetchNamespacesIfNeeded())
   }
 
-  handleSelect(selectedOption) {
+  handleSelect(event, index, value) {
     const { dispatch, onChange } = this.props
 
-    dispatch(setSelectedNamespace(selectedOption.label))
+    dispatch(setSelectedNamespace(value))
     if (onChange) {
-        onChange(selectedOption.label);
+        // Notify the parent element
+        onChange(value);
     }
   }
 
@@ -34,14 +36,11 @@ class NamespaceSelect extends Component {
     });
 
     return (
-      <Select
-              value={selectedNamespace}
-              options={options}
-              onChange={this.handleSelect}
-              isLoading={isFetching}
-              clearable={false}
-              name="namespaces-select"
-       />
+      <DropDownMenu
+       value={selectedNamespace}
+       onChange={this.handleSelect}>
+        { options.map(option => <MenuItem key={option.value} value={option.value} primaryText={option.label} />) }
+      </DropDownMenu>
     );
   }
 }

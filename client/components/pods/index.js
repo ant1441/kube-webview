@@ -7,7 +7,7 @@ import { Toggle } from 'material-ui';
 import ResourceTable from '#app/components/material/resource-table';
 
 import { pods, p, link } from '../homepage/styles';
-import NamespaceSelect from '#app/components/namespaces-select';
+import NamespaceSelect from '#app/components/material/namespaces-select';
 import { fetchNamespacesIfNeeded } from '#app/actions/namespaces';
 import { fetchPodsIfNeeded, invalidatePods } from '#app/actions/pods';
 import { setWide } from '#app/actions';
