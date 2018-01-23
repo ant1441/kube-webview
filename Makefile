@@ -6,7 +6,7 @@ PID           = .pid
 GO_FILES      = $(filter-out ./server/bindata.go, $(shell find ./server  -type f -name "*.go"))
 TEMPLATES     = $(wildcard server/data/templates/*.html)
 BINDATA       = server/bindata.go
-BINDATA_FLAGS = -pkg=main -prefix=server/data
+BINDATA_FLAGS = -pkg=main -prefix=server/data -ignore=.*.swp
 BUNDLE        = server/data/static/build/bundle.js
 APP           = $(shell find client -type f)
 IMPORT_PATH   = $(shell pwd | sed "s|^$(GOPATH)/src/||g")
