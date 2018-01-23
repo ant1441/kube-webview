@@ -1,0 +1,41 @@
+.visible {
+  visibility: visible;
+  z-index: 1; /* TODO */
+  transform: translate3d(0,150%,0) scale(1);
+  opacity: 1;
+}
+
+.hidden {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.refresher {
+  pointer-events: none;
+  position: absolute;
+  left: calc(50% - 55px / 2);
+  transition: all 300ms cubic-bezier(0.4, 0.0, 0.6, 1);
+
+  /*cubic-bezier(0,0,0.2,1); */
+  will-change: transform, opacity, visibility;
+  /* --refresh-width: 55px;
+  background: #fff;
+  width: var(--refresh-width);
+  height: var(--refresh-width);
+  border-radius: 50%;
+  left: calc(50% - 55px / 2);
+  padding: 8px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+              0 1px 5px 0 rgba(0, 0, 0, 0.12),
+              0 3px 1px -2px rgba(0, 0, 0, 0.2);
+  display: inline-flex;
+  justify-content: space-evenly;
+  align-items: center; */
+}
+
+.demoButton {
+  color: red;
+  position: absolute;
+  left: 75%;
+  z-index: 2000;
+}

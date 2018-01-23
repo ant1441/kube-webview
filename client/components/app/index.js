@@ -5,6 +5,7 @@ import { muiThemeable } from 'material-ui/styles';
 
 import MyAppBar from '#app/components/material/app-bar';
 import NavDrawer from '#app/components/material/nav-drawer';
+import PullToRefresh from '#app/components/pull-to-refresh';
 
 
 const styles = theme => ({
@@ -41,6 +42,7 @@ class App extends Component {
       <Helmet title='Kubernetes Webview' />
       <BodyStyle style={bodyStyle} />
 
+      <PullToRefresh />
       <MyAppBar />
       <NavDrawer />
       {this.props.children}
