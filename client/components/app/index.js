@@ -32,6 +32,16 @@ const styles = theme => ({
 });
 
 class App extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleRefresh = this.handleRefresh.bind(this);
+  }
+
+  handleRefresh(e, cb) {
+    setTimeout(cb, 5000);
+  }
+
   render() {
     const theme = this.props.muiTheme;
     const bodyStyle = {
@@ -42,7 +52,7 @@ class App extends Component {
       <Helmet title='Kubernetes Webview' />
       <BodyStyle style={bodyStyle} />
 
-      <PullToRefresh />
+      <PullToRefresh onRefresh={this.handleRefresh} />
       <MyAppBar />
       <NavDrawer />
       {this.props.children}

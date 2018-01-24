@@ -3,7 +3,7 @@ import Helmet from 'react-helmet';
 import BodyStyle from 'body-style';
 import { Paper } from 'material-ui';
 
-import { refresher, hidden, visible, refreshSpinner, demoButton } from './styles';
+import { refresher, hidden, visible, spinner, path } from './styles';
 
 
 const paperStyle = {
@@ -28,8 +28,8 @@ export default class PullToRefresh extends Component {
   }
 
   componentDidMount() {
-    if (!CSS.supports('overscroll-behavior-y', 'contain')) {
-      console.log("Your browser doesn't support overscroll-behavior :(");
+    if (!CSS.supports('overscroll-behavior-y', 'none')) {
+      console.warn("Your browser doesn't support overscroll-behavior :(");
       return;
     }
 
@@ -46,17 +46,18 @@ export default class PullToRefresh extends Component {
       // and user is scrolling up.
       if (document.scrollingElement.scrollTop === 0 && y > _startY &&
           !document.body.classList.contains('refreshing')) {
-          this.handleRefresh();
+          this.handleRefresh(y);
       }
     }, {passive: true});
   }
 
-  handleRefresh(event) {
+  handleRefresh(y) {
     const { onRefresh } = this.props;
-    console.log("REFRESHING");
-    this.setState({ refreshing: true })
+    this.setState({ refreshing: true, y: y })
     if (onRefresh) {
-        onRefresh(event);
+      onRefresh(event, () => {
+        this.setState({ refreshing: false })
+      });
     }
   }
 
@@ -66,23 +67,37 @@ export default class PullToRefresh extends Component {
   }
 
   render() {
-    const { refreshing } = this.state;
-    console.log("REFRESHING: %o", refreshing);
+    const { refreshing, y } = this.state;
 
     const bodyStyle = {
-      "overscroll-behavior-y": "contain", /* disable pull to refresh, keeps glow effects */
+      "overscroll-behavior-y": "none",
     }
     const classNames = [refresher];
     if (refreshing) {
       classNames.push(visible);
+      bodyStyle["pointer-events"] = "none";
     } else {
       classNames.push(hidden);
+      bodyStyle["pointer-events"] = "auto";
     }
 
     return <div>
       <BodyStyle style={bodyStyle} />
-      <div className={classNames.join(' ')}><Paper style={paperStyle} circle={true}><div className={refreshSpinner} /></Paper></div>
-      <a onClick={this.toggleRefresh} className={demoButton}>CLICK ME</a>
+      <div className={classNames.join(' ')}><Paper style={paperStyle} circle={true}><RefreshSpinner /></Paper></div>
     </div>;
+  }
+}
+
+class RefreshSpinner extends Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+
+    return <svg className={spinner} width="55px" height="55px" viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+           <circle className={path} fill="none" strokeWidth="5" strokeLinecap="round" cx="33" cy="33" r="25"></circle>
+           </svg>
   }
 }
